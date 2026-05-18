@@ -1,0 +1,49 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: phim-app
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - ./vendor:/app/vendor
+    networks:
+      - phim
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
+    container_name: phim-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/app:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+    networks:
+      - phim
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: phim-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-phim}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - phim
+
+networks:
+  phim:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

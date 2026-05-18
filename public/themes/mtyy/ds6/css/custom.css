@@ -1,0 +1,258 @@
+#result {
+    margin-top: 20px;
+    background-color: #333333;
+    list-style-type: none;
+    width: 500px;
+    position: fixed;
+    top: 38px;
+    right: 0;
+    z-index: 9999;
+    padding-left: 0;
+    border-radius: 6px;
+}
+
+#result a {
+    overflow: hidden;
+    display: block;
+    border-radius: 6px;
+}
+
+@media (max-width: 500px){
+    #result {
+        top: 32px;
+        width: 100%;
+        left: 0;
+    }
+}
+
+.column {
+    float: left;
+    padding: 5px;
+}
+
+.lefts {
+    text-align: center;
+    width: 20%;
+}
+
+.rights {
+    width: 80%;
+}
+
+.rowsearch:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#result .rowsearch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#result .rowsearch p {
+    margin-bottom: 1px;
+}
+
+.rowsearch:hover {
+    background-color: #2d2d2d;
+}
+
+/* Local layout fixes for VSMOV MTYY in this project. */
+.box-width {
+    width: min(100% - 40px, 1320px);
+}
+
+.head {
+    min-height: 56px;
+    background: #111318;
+}
+
+.head + .box-width {
+    margin-top: 72px;
+}
+
+.head .this-pc {
+    min-height: 56px;
+    align-items: center;
+    gap: 24px;
+}
+
+.head .left {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.head .right {
+    flex: 0 0 auto;
+}
+
+.head-nav,
+.this-wap {
+    overflow: hidden;
+}
+
+.head-nav ul,
+.this-wap ul {
+    align-items: center;
+    gap: 22px;
+}
+
+.head-nav li,
+.this-wap li {
+    width: auto !important;
+    white-space: nowrap;
+}
+
+.search-min-box {
+    width: min(240px, 24vw);
+}
+
+.search-min-box form {
+    display: flex;
+    align-items: center;
+}
+
+.search-min-box .input {
+    width: 100%;
+}
+
+.title {
+    clear: both;
+    margin-top: 24px;
+}
+
+.title-h,
+.title-h a {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+}
+
+.title-h span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.public-r {
+    gap: 24px 16px;
+}
+
+.public-list-box {
+    min-width: 0;
+}
+
+.public-list-exp {
+    display: block;
+    overflow: hidden;
+    background: #34343a;
+}
+
+.gen-movie-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.public-list-button {
+    min-height: 34px;
+}
+
+.time-title {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.footer {
+    margin-top: 48px;
+}
+
+@media (max-width: 767px) {
+    .box-width {
+        width: calc(100% - 30px);
+    }
+
+    .head {
+        position: relative;
+        min-height: 92px;
+        padding: 8px 15px 0;
+    }
+
+    .head + .box-width {
+        margin-top: 20px;
+    }
+
+    .head .this-pc {
+        min-height: 36px;
+        gap: 10px;
+    }
+
+    .logo {
+        min-width: 0;
+    }
+
+    .logo-brand {
+        display: block;
+        max-width: 145px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .search-min-box {
+        width: 120px;
+    }
+
+    .this-wap {
+        position: static;
+        display: block;
+        width: 100%;
+        margin-top: 6px;
+        overflow-x: auto;
+    }
+
+    .this-wap ul {
+        display: flex;
+        gap: 22px;
+        width: max-content;
+    }
+
+    .this-wap li a {
+        display: block;
+        line-height: 34px;
+    }
+
+    .wr-list:first-of-type {
+        margin-top: 10px;
+    }
+
+    .public-r {
+        gap: 20px 6px;
+    }
+
+    .public-pic-b,
+    .public-pic-a {
+        width: calc((100% - 12px) / 3) !important;
+        margin: 0 !important;
+    }
+
+    .public-list-div {
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .public-list-button {
+        min-height: 38px;
+    }
+
+    .time-title {
+        font-size: 14px;
+        line-height: 20px;
+    }
+}

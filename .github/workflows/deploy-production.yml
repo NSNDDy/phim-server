@@ -1,0 +1,37 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_BRANCH: main
+        run: |
+          set -Eeuo pipefail
+
+          mkdir -p ~/.ssh
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/ec2_deploy_key
+          chmod 600 ~/.ssh/ec2_deploy_key
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/ec2_deploy_key "$EC2_USER@$EC2_HOST" \
+            "cd \"$DEPLOY_PATH\" && \
+             git fetch origin \"$DEPLOY_BRANCH\" && \
+             git reset --hard \"origin/$DEPLOY_BRANCH\" && \
+             chmod +x scripts/deploy-production.sh && \
+             bash scripts/deploy-production.sh"
