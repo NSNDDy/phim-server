@@ -8,17 +8,21 @@ if [[ ! -f .env ]]; then
   exit 1
 fi
 
+fix_laravel_permissions() {
+  docker compose -f docker-compose.prod.yml exec -T app sh -lc '
+    mkdir -p /app/storage/framework/cache/data \
+      /app/storage/framework/sessions \
+      /app/storage/framework/views \
+      /app/storage/logs \
+      /app/bootstrap/cache
+    chown -R www-data:www-data /app/storage /app/bootstrap/cache
+    chmod -R 777 /app/storage /app/bootstrap/cache
+  '
+}
+
 docker compose -f docker-compose.prod.yml up -d --build
 
-docker compose -f docker-compose.prod.yml exec -T app sh -lc '
-  mkdir -p /app/storage/framework/cache/data \
-    /app/storage/framework/sessions \
-    /app/storage/framework/views \
-    /app/storage/logs \
-    /app/bootstrap/cache
-  chown -R www-data:www-data /app/storage /app/bootstrap/cache
-  chmod -R 777 /app/storage /app/bootstrap/cache
-'
+fix_laravel_permissions
 
 docker compose -f docker-compose.prod.yml exec -T app composer install \
   --no-interaction \
@@ -28,7 +32,9 @@ docker compose -f docker-compose.prod.yml exec -T app composer install \
 
 docker compose -f docker-compose.prod.yml exec -T app php artisan migrate --force
 docker compose -f docker-compose.prod.yml exec -T app php artisan optimize:clear
+fix_laravel_permissions
 docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
 docker compose -f docker-compose.prod.yml exec -T app php artisan view:cache
+fix_laravel_permissions
 
 docker compose -f docker-compose.prod.yml ps
